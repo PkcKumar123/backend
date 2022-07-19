@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { APP_PORT, DB_URL } from "./config";
 import errorHandler from "./middlewares/errorHandler";
 import path from "path";
+import cors from "cors";
 
 const app = express();
 
@@ -18,6 +19,8 @@ db.once("open", () => {
 
 global.appRoot = path.resolve(__dirname);
 
+app.use(cors());
+
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.json());
@@ -32,6 +35,8 @@ app.get("/", (req, res) => {
   res.send("app is working");
 });
 
-app.listen(APP_PORT, () => {
-  console.log(`Listening on port ${APP_PORT}`);
+const PORT = process.env.PORT || APP_PORT;
+
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
 });
